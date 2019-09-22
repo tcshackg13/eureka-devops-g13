@@ -19,12 +19,12 @@ pipeline {
         }
     stage("SonarQube analysis") {
             steps {
-                sh '/opt/sonar_scanner/sonar-scanner-4.0.0.1744-linux/bin/sonar-scanner -Dsonar.host.url=http://10.138.0.3:9000 -Dsonar.projectKey=devops-practice-lab -Dsonar.projectName=devops -Dsonar.projectVersion=1.0 -Dsonar.sources=/var/lib/jenkins/workspace/$JOB_NAME/eureka-server/src -Dsonar.java.binaries=/var/lib/jenkins/workspace/$JOB_NAME/eureka-server/target/classes/org/exampledriven/eureka/customer/server'
+                sh '/opt/sonar_scanner/sonar-scanner-4.0.0.1744-linux/bin/sonar-scanner -Dsonar.host.url=http://10.142.0.4:9000 -Dsonar.projectKey=devops-practice-lab -Dsonar.projectName=devops -Dsonar.projectVersion=1.0 -Dsonar.sources=/var/lib/jenkins/workspace/$JOB_NAME/eureka-server/src -Dsonar.java.binaries=/var/lib/jenkins/workspace/$JOB_NAME/eureka-server/target/classes/org/exampledriven/eureka/customer/server'
             }
         }
     stage("Publish Compiled Artifact to Nexus") {
         steps {
-            nexusArtifactUploader artifacts: [[artifactId: 'eureka-server', classifier: '', file: 'eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus-credential', groupId: 'release', nexusUrl: '34.82.249.171:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'g13project', version: "${BUILD_NUMBER}"
+            nexusArtifactUploader artifacts: [[artifactId: 'eureka-server', classifier: '', file: 'eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus-credential', groupId: 'release', nexusUrl: '32.232.19.37:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'g13project', version: "${BUILD_NUMBER}"
         }
     }
     stage('Dockerizing Application & QA env Deployment') {
@@ -35,14 +35,14 @@ pipeline {
         	echo "*******Initiate Docker Build*******"
         	echo ""
         
-        	sudo docker login -u jenkin -p jenkins 10.138.0.2:8082
-        	sudo docker login -u jenkin -p jenkins 10.138.0.2:8083
+        	sudo docker login -u jenkins -p jenkins 10.128.0.6:8082
+        	sudo docker login -u jenkins -p jenkins 10.128.0.6:8083
         
         	cd eureka-server
         
-        	sudo docker build -t 10.138.0.2:8082/eureka-server-svc:latest .
-        	sudo docker tag  10.138.0.2:8082/eureka-server-svc:latest  10.138.0.2:8083/eureka-server-svc:latest
-        	sudo docker push 10.138.0.2:8083/eureka-server-svc:latest
+        	sudo docker build -t 10.128.0.6:8082/eureka-server-svc:latest .
+        	sudo docker tag  10.128.0.6:8082/eureka-server-svc:latest  10.128.0.6:8083/eureka-server-svc:latest
+        	sudo docker push 10.128.0.6:8083/eureka-server-svc:latest
         
         	CONTAINER=$(sudo docker ps -a | grep eureka | awk '{print $1}')
         	echo "Found container ID" $CONTAINER 
@@ -51,7 +51,7 @@ pipeline {
         	echo "*******Run Container*******"
         	echo ""
         
-        	sudo docker run -itd -p 8761:8761 10.138.0.2:8083/eureka-server-svc:latest'''
+        	sudo docker run -itd -p 8761:8761 10.128.0.6:8083/eureka-server-svc:latest'''
         	}
         }
     stage('App Deployment to Kubernetes Cluster') {

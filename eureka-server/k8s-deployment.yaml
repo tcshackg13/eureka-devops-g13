@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: eureka-micro-svc
-        image: 10.138.0.2:8082/eureka-server-svc:latest
+        image: 10.128.0.6:8082/eureka-server-svc:latest
         imagePullPolicy: Always
       imagePullSecrets:
         - name: regsecret
