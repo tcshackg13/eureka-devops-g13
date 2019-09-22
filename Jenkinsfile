@@ -19,9 +19,7 @@ pipeline {
         }
     stage("SonarQube analysis") {
             steps {
-              withSonarQubeEnv('sonarqube') {
                 sh '/opt/sonar_scanner/sonar-scanner-4.0.0.1744-linux/bin/sonar-scanner -Dsonar.host.url=http://10.138.0.3:9000 -Dsonar.projectKey=devops-practice-lab -Dsonar.projectName=devops -Dsonar.projectVersion=1.0 -Dsonar.sources=/var/lib/jenkins/workspace/$JOB_NAME/eureka-server/src -Dsonar.java.binaries=/var/lib/jenkins/workspace/$JOB_NAME/eureka-server/target/classes/org/exampledriven/eureka/customer/server'
-              }
             }
         }
     stage("Publish Compiled Artifact to Nexus") {
