@@ -33,3 +33,4 @@ Test URLs :
 - Feign example : http://localhost:9099/customer-client-feign/1
 - Feign example with Hystrix fallback: http://localhost:9099/customer-client-feign/8
 - Eureka server : http://localhost:8761/
+
