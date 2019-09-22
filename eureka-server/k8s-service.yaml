@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name:eureka-micro-svc 
+  name: eureka-micro-svc 
   labels:
     service: eureka-micro-svc
 spec:
