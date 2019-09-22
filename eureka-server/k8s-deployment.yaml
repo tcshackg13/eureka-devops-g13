@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: eureka-micro-svc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: eureka-micro-svc
+        env: prod
+    spec:
+      containers:
+      - name: eureka-micro-svc
+        image: 10.138.0.2:8082/eureka-server-svc:latest
+        imagePullPolicy: Always
+      imagePullSecrets:
+        - name: regsecret
