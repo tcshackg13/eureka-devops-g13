@@ -24,7 +24,7 @@ pipeline {
         }
     stage("Publish Compiled Artifact to Nexus") {
         steps {
-            nexusArtifactUploader artifacts: [[artifactId: 'eureka-server', classifier: '', file: 'eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus-credential', groupId: 'release', nexusUrl: '32.232.19.37:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'g13project', version: "${BUILD_NUMBER}"
+            nexusArtifactUploader artifacts: [[artifactId: 'eureka-server', classifier: '', file: 'eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus-credential', groupId: 'release', nexusUrl: '35.232.19.37:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'g13project', version: "${BUILD_NUMBER}"
         }
     }
     stage('Dockerizing Application & QA env Deployment') {
